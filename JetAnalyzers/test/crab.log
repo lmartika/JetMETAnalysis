@@ -1,0 +1,102 @@
+DEBUG 2022-09-15 14:25:09.464 UTC: 	 CRAB Client version: v3.220823
+DEBUG 2022-09-15 14:25:09.464 UTC: 	 Running on: Linux lxplus780.cern.ch 3.10.0-1160.71.1.el7.x86_64 #1 SMP Tue Jun 28 15:37:28 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2022-09-15 14:25:09.464 UTC: 	 Executing command: 'submit'
+DEBUG 2022-09-15 14:25:09.465 UTC: 	 Could not find CRAB cache file /afs/cern.ch/user/l/lcunquei/.crab3; creating a new one.
+INFO 2022-09-15 14:25:09.470 UTC: 	 Will use CRAB configuration file custom_crab_JEC.py
+DEBUG 2022-09-15 14:25:09.470 UTC: 	 Loading CRAB configuration file.
+ERROR 2022-09-15 14:25:09.474 UTC: 	 Error while loading CRAB configuration:
+invalid syntax (custom_crab_JEC.py, line 14)
+Please refer to https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ
+See the ./crab.log file for more details.
+The documentation about the CRAB configuration file can be found in https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile
+ERROR 2022-09-15 14:25:09.475 UTC: 	 Caught ClientException exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/lib/WMCore/Configuration.py", line 326, in loadConfigurationFile
+    modRef = imp.load_module(cfgBaseName, modPath[0],
+  File "/cvmfs/cms.cern.ch/slc7_amd64_gcc10/external/python3/3.9.6-67e5cf5b4952101922f1d4c8474baa39/lib/python3.9/imp.py", line 234, in load_module
+    return load_source(name, filename, file)
+  File "/cvmfs/cms.cern.ch/slc7_amd64_gcc10/external/python3/3.9.6-67e5cf5b4952101922f1d4c8474baa39/lib/python3.9/imp.py", line 171, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 711, in _load
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 983, in get_code
+  File "<frozen importlib._bootstrap_external>", line 913, in source_to_code
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/custom_crab_JEC.py", line 14
+    config.Data.userInputFiles = open('/afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/inputfile.txt')readlines();
+                                                                                                                                                   ^
+SyntaxError: invalid syntax
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/lib/CRABClient/Commands/SubCommand.py", line 55, in loadConfig
+    self.configuration = loadConfigurationFile(os.path.abspath(configname))
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/lib/WMCore/Configuration.py", line 334, in loadConfigurationFile
+    raise RuntimeError(msg)
+RuntimeError: Unable to load Configuration File:
+/afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/custom_crab_JEC.py
+Due to error:
+invalid syntax (custom_crab_JEC.py, line 14)Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/lib/WMCore/Configuration.py", line 326, in loadConfigurationFile
+    modRef = imp.load_module(cfgBaseName, modPath[0],
+  File "/cvmfs/cms.cern.ch/slc7_amd64_gcc10/external/python3/3.9.6-67e5cf5b4952101922f1d4c8474baa39/lib/python3.9/imp.py", line 234, in load_module
+    return load_source(name, filename, file)
+  File "/cvmfs/cms.cern.ch/slc7_amd64_gcc10/external/python3/3.9.6-67e5cf5b4952101922f1d4c8474baa39/lib/python3.9/imp.py", line 171, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 711, in _load
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 983, in get_code
+  File "<frozen importlib._bootstrap_external>", line 913, in source_to_code
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/custom_crab_JEC.py", line 14
+    config.Data.userInputFiles = open('/afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/inputfile.txt')readlines();
+                                                                                                                                                   ^
+SyntaxError: invalid syntax
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/bin/crab.py", line 159, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/bin/crab.py", line 144, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/lib/CRABClient/Commands/submit.py", line 36, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/lib/CRABClient/Commands/SubCommand.py", line 316, in __init__
+    self.loadConfig(self.options.config, self.args)
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.220823.00/lib/CRABClient/Commands/SubCommand.py", line 89, in loadConfig
+    raise ConfigurationException(configmsg)
+CRABClient.ClientExceptions.ConfigurationException: Error while loading CRAB configuration:
+invalid syntax (custom_crab_JEC.py, line 14)
+Please refer to https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ
+See the ./crab.log file for more details.
+The documentation about the CRAB configuration file can be found in https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile
+INFO 2022-09-15 14:25:09.480 UTC: 	 Log file is /afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/crab.log
+DEBUG 2023-08-09 20:37:08.041 UTC: 	 CRAB Client version: v3.230612
+DEBUG 2023-08-09 20:37:08.041 UTC: 	 Running on: Linux lxplus7102.cern.ch 3.10.0-1160.92.1.el7.x86_64 #1 SMP Tue Jun 20 11:48:01 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2023-08-09 20:37:08.041 UTC: 	 Executing command: 'submit'
+DEBUG 2023-08-09 20:37:08.041 UTC: 	 Found CRAB cache file /afs/cern.ch/user/l/lcunquei/.crab3
+INFO 2023-08-09 20:37:08.042 UTC: 	 Will use CRAB configuration file custom_crab_JEC.py
+DEBUG 2023-08-09 20:37:08.042 UTC: 	 Loading CRAB configuration file.
+DEBUG 2023-08-09 20:37:08.052 UTC: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+ERROR 2023-08-09 20:37:08.052 UTC: 	 Working area '/afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/MyWorkArea/crab_JEC_run3_0923' already exists 
+Please change the requestName in the config file
+ERROR 2023-08-09 20:37:08.053 UTC: 	 Caught ClientException exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.230612.00/bin/crab.py", line 159, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.230612.00/bin/crab.py", line 144, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.230612.00/lib/CRABClient/Commands/submit.py", line 36, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.230612.00/lib/CRABClient/Commands/SubCommand.py", line 318, in __init__
+    self.requestarea, self.requestname, self.logfile = createWorkArea(
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.230612.00/lib/CRABClient/ClientUtilities.py", line 387, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+CRABClient.ClientExceptions.ConfigException: Working area '/afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/MyWorkArea/crab_JEC_run3_0923' already exists 
+Please change the requestName in the config file
+INFO 2023-08-09 20:37:08.069 UTC: 	 Log file is /afs/cern.ch/user/l/lcunquei/JEC_MCsamples/CMSSW_12_4_8/src/JetMETAnalysis/JetAnalyzers/test/crab.log
