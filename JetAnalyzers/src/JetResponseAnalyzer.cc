@@ -29,7 +29,8 @@ JetResponseAnalyzer::JetResponseAnalyzer(const edm::ParameterSet& iConfig)
   //, srcPFCandidates_      (consumes<vector<reco::PFCandidate> >(iConfig.getParameter<edm::InputTag>("srcPFCandidates")))
   , srcPFCandidates_        (consumes<PFCandidateView>(iConfig.getParameter<edm::InputTag>("srcPFCandidates")))
   , srcPFCandidatesAsFwdPtr_(consumes<std::vector<edm::FwdPtr<reco::PFCandidate> > >(iConfig.getParameter<edm::InputTag>("srcPFCandidates")))
-  , srcGenParticles_        (consumes<vector<reco::GenParticle>>(iConfig.getParameter<edm::InputTag>("srcGenParticles")))
+    //  , srcGenParticles_        (consumes<vector<reco::GenParticle>>(iConfig.getParameter<edm::InputTag>("srcGenParticles")))
+  , srcGenParticles_        (consumes<vector<pat::PackedGenParticle> >(iConfig.getParameter<edm::InputTag>("srcGenParticles")))
   , jetCorrectorToken_      (consumes<reco::JetCorrector>(edm::InputTag("CORRECTOR_LABEL")))
   , jecLabel_      (iConfig.getParameter<std::string>                 ("jecLabel"))
   , doComposition_ (iConfig.getParameter<bool>                   ("doComposition"))
@@ -176,7 +177,8 @@ void JetResponseAnalyzer::analyze(const edm::Event& iEvent,
   edm::Handle<reco::VertexCollection>            vtx;
   edm::Handle<PFCandidateView>                   pfCandidates;
   edm::Handle<std::vector<edm::FwdPtr<reco::PFCandidate> > >  pfCandidatesAsFwdPtr;
-  edm::Handle<vector<reco::GenParticle> >        genParticles;
+  edm::Handle<vector<pat::PackedGenParticle> >        genParticles;
+  //  edm::Handle<vector<reco::GenParticle> >        genParticles;
   edm::Handle<reco::JetCorrector>                jetCorrector_;
   // Jet CORRECTOR
   //jetCorrector_ = (jecLabel_.empty()) ? 0 : JetCorrector::getJetCorrector(jecLabel_,iSetup);
@@ -231,7 +233,8 @@ void JetResponseAnalyzer::analyze(const edm::Event& iEvent,
   JRAEvt_->refpvz = -1000.0;
   iEvent.getByToken(srcGenParticles_, genParticles);
   for (size_t i = 0; i < genParticles->size(); ++i) {
-     const reco::GenParticle & genIt = (*genParticles)[i];
+    //     const reco::GenParticle & genIt = (*genParticles)[i];
+    const pat::PackedGenParticle & genIt = (*genParticles)[i];
      if ( genIt.fromHardProcessFinalState() ) {
         JRAEvt_->refpvz = genIt.vz();
         break;

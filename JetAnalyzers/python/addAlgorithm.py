@@ -5,7 +5,7 @@ import FWCore.ParameterSet.Config as cms
 ################################################################################
 
 partons = cms.EDProducer('PartonSelector',
-    src = cms.InputTag('genParticles'),
+    src = cms.InputTag('packedGenParticles'),
     withLeptons = cms.bool(False),
     skipFirstN = cms.uint32(0)
 )
@@ -22,7 +22,7 @@ from JetMETAnalysis.JetAnalyzers.JetCorrection_cff     import *
 from CommonTools.PileupAlgos.Puppi_cff import *    #main config file (it includes the default PUPPI tune of the CMSSW)
 from JetMETAnalysis.JetAnalyzers.customizePuppiTune_cff_V15 import * #customized config (recipe) to apply on top of the main config so as to use the V15 tune
 
-genParticlesForJetsNoNu.src = cms.InputTag("genParticles")
+genParticlesForJetsNoNu.src = cms.InputTag("packedGenParticles")
 
 stdClusteringAlgorithms = ['ak'] #Options: {ak,kt}
 stdJetTypes = ['calo','pf','pfchs','puppi'] #Options: {'calo','pf','pfchs','puppi'}
@@ -521,7 +521,7 @@ def addAlgorithm(process, alg_size_type_corr, Defaults, reco, doProducer):
                          srcVtx            = cms.InputTag('offlinePrimaryVertices'),
                          srcJetToUncorJetMap = cms.InputTag(jetToUncorJet.label(), 'rec2gen'),
                          srcPFCandidates   = cms.InputTag(''),
-                         srcGenParticles   = cms.InputTag('genParticles')
+                         srcGenParticles   = cms.InputTag('packedGenParticles')
                         )
     if doProducer:
         jraAnalyzer = 'JetResponseAnalyzerProducer'
@@ -535,7 +535,7 @@ def addAlgorithm(process, alg_size_type_corr, Defaults, reco, doProducer):
                      srcVtx            = cms.InputTag('offlinePrimaryVertices'),
                      srcJetToUncorJetMap = cms.InputTag(jetToUncorJet.label(), 'rec2gen'),
                      srcPFCandidates   = cms.InputTag(''),
-                     srcGenParticles   = cms.InputTag('genParticles')
+                     srcGenParticles   = cms.InputTag('packedGenParticles')
                      )
 
     if type == 'CaloHLT':
@@ -561,16 +561,17 @@ def addAlgorithm(process, alg_size_type_corr, Defaults, reco, doProducer):
         jra.srcRho = ak4PFchsL1Fastjet.srcRho
         jra.srcRhoHLT = ak5PFchsHLTL1Fastjet.srcRho
     elif type == 'PF':
-        # process.particleFlow = cms.EDFilter("CandPtrSelector", src = cms.InputTag("particleFlow"), cut = cms.string(""))
+        process.particleFlow = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedPFCandidates"), cut = cms.string(""))
         process.kt6PFJetsRhos = kt6PFJets.clone(doFastJetNonUniform = cms.bool(True),
                                                 puCenters = cms.vdouble(-5,-4,-3,-2,-1,0,1,2,3,4,5),
                                                 puWidth = cms.double(.8),
                                                 nExclude = cms.uint32(2))
-        # sequence = cms.Sequence(process.particleFlow * process.kt6PFJetsRhos * sequence)
-        sequence = cms.Sequence(process.kt6PFJetsRhos * sequence)
+        sequence = cms.Sequence(process.particleFlow * process.kt6PFJetsRhos * sequence)
+        #sequence = cms.Sequence(process.kt6PFJetsRhos * sequence)
         jra.srcRhos = cms.InputTag("kt6PFJetsRhos", "rhos")
         jra.srcRho = cms.InputTag("fixedGridRhoFastjetAll")
-        jra.srcPFCandidates = cms.InputTag('particleFlow')
+#        jra.srcPFCandidates = cms.InputTag('particleFlow')
+        jra.srcPFCandidates = cms.InputTag('packedPFCandidates')
     elif type == 'PUPPI':
         process.particleFlow = cms.EDFilter("CandPtrSelector", src = cms.InputTag("particleFlow"), cut = cms.string(""))
         process.kt6PFJetsRhos = kt6PFJets.clone(doFastJetNonUniform = cms.bool(True),
