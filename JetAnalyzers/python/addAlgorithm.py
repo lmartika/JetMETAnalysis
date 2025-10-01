@@ -390,7 +390,7 @@ def addAlgorithm(process, alg_size_type_corr, Defaults, reco, doProducer):
             #applyLowPUCorr must be True for CMSSW>=9_0_X and tune>=v11 (it is by default True inside Puppi_cff)
             #puppiCentral[0].applyLowPUCorr = cms.bool(True)
             #puppiForward[0].applyLowPUCorr = cms.bool(True)
-            puppi.vertexName = "offlinePrimaryVertices"
+            puppi.vertexName = "offlineSlimmedPrimaryVertices"
 
             UpdatePuppiTuneV15(process)
 
@@ -518,7 +518,7 @@ def addAlgorithm(process, alg_size_type_corr, Defaults, reco, doProducer):
                          srcRhos           = cms.InputTag(''),
                          srcRho            = cms.InputTag(''),
                          srcRhoHLT         = cms.InputTag(''),
-                         srcVtx            = cms.InputTag('offlinePrimaryVertices'),
+                         srcVtx            = cms.InputTag('offlineSlimmedPrimaryVertices'),
                          srcJetToUncorJetMap = cms.InputTag(jetToUncorJet.label(), 'rec2gen'),
                          srcPFCandidates   = cms.InputTag(''),
                          srcGenParticles   = cms.InputTag('packedGenParticles')
@@ -532,7 +532,7 @@ def addAlgorithm(process, alg_size_type_corr, Defaults, reco, doProducer):
                      jecLabel          = cms.string(''),
                      srcRho            = cms.InputTag(''),
                      srcRhoHLT         = cms.InputTag(''),
-                     srcVtx            = cms.InputTag('offlinePrimaryVertices'),
+                     srcVtx            = cms.InputTag('offlineSlimmedPrimaryVertices'),
                      srcJetToUncorJetMap = cms.InputTag(jetToUncorJet.label(), 'rec2gen'),
                      srcPFCandidates   = cms.InputTag(''),
                      srcGenParticles   = cms.InputTag('packedGenParticles')
@@ -544,7 +544,7 @@ def addAlgorithm(process, alg_size_type_corr, Defaults, reco, doProducer):
     elif type == 'Calo':
         jra.srcRho = cms.InputTag("fixedGridRhoFastjetAllCalo")
     elif type == 'PFchs':
-        process.pfCHS = cms.EDFilter("CandPtrSelector", src = cms.InputTag("particleFlow"), cut = cms.string("fromPV"))
+        process.pfCHS = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedPFCandidates"), cut = cms.string("fromPV"))
         process.kt6PFchsJetsRhos = kt6PFJets.clone(src = 'pfCHS',
                                                    doFastJetNonUniform = cms.bool(True),
                                                    puCenters = cms.vdouble(-5,-4,-3,-2,-1,0,1,2,3,4,5),
