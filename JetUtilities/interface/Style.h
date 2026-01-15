@@ -261,7 +261,8 @@ CMS_lumi( TPad* pad, int iPeriod, int iPosX, bool verbose )
     }
   else if ( iPeriod==14 )
     {
-      lumiText += "#bf{#it{Summer 20 non-APV UL 2016}}(13 TeV)"; //#bf{#it{UL 2018}} 
+      //      lumiText += "2024 ppref w. PbPb reco (5.36 TeV)"; //#bf{#it{Summer 20 non-APV UL 2016}}(13 TeV)"; //#bf{#it{UL 2018}}
+      lumiText += "2023 PbPb GT+reco (5.36 TeV)"; //#bf{#it{Summer 20 non-APV UL 2016}}(13 TeV)"; //#bf{#it{UL 2018}} 
     }
   else if ( iPeriod==15 )
     {

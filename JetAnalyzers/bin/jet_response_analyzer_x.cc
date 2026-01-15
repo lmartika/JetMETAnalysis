@@ -1514,7 +1514,6 @@ int main(int argc,char**argv)
           }
 	    }
 
-	    cout<<"I pass via here"<<endl;
           float eta    =
             (binseta.size()&&binseta.front()>=0.)?std::abs(JRAEvt->jteta->at(iref)):JRAEvt->jteta->at(iref);
           float y      =

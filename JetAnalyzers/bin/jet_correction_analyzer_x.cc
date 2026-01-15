@@ -578,7 +578,6 @@ int main(int argc,char**argv)
 	chain->GetEntry(ievt);
 
 	int iIT = itIndex(JRAEvt->bxns);
-	cout<<"the index"<<iIT<<endl;
         int npu=0;
 	int eootnpu=0;
 	int itnpu=0;

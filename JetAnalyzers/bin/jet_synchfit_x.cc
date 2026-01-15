@@ -59,15 +59,16 @@ TGraph2DErrors * getGraph2D(int iEta, TProfile3D * prof,
         if (prof   ->GetBinError  (iEta,itnpu,irefpt)  > 0.000001 &&
         // hist   ->GetBinContent(iEta,itnpu,irefpt)  >=20  &&
         fabs(prof   ->GetBinContent  (iEta,itnpu,irefpt))  != TMath::Infinity() &&
-        prof   ->GetBinError  (iEta,itnpu,irefpt)  < 5.0 &&
-        prof   ->GetBinEffectiveEntries(Gbin)      > sqrt(nJets/(5.0E+06)) &&
+	    prof   ->GetBinError  (iEta,itnpu,irefpt)  <  1 && // ok when only small rho   // 5.0 &&
+	    prof   ->GetBinEffectiveEntries(Gbin)      > sqrt(nJets/(5.0E+06)) &&  
         // (fabs(prof->GetBinError(iEta,itnpu,irefpt)/prof->GetBinContent(iEta,itnpu,irefpt)))<0.5 &&// 0.3 ==> 0.5
         // (fabs(prof->GetBinError(iEta,itnpu,irefpt)/prof->GetBinContent(iEta,itnpu,irefpt)))>0.01 &&// 0.05 ==> 0.01
         profPt ->GetBinContent(iEta,itnpu,irefpt)  > 0 &&
         profPt ->GetBinError  (iEta,itnpu,irefpt)  > 0.1 &&
         // profPt ->GetBinError  (iEta,itnpu,irefpt)  < 10*log10(profPt ->GetBinContent(iEta,itnpu,irefpt)) &&
         profRho->GetBinContent(iEta,itnpu,irefpt)  > 0 &&
-        profRho->GetBinError  (iEta,itnpu,irefpt)  > 0.1){
+	    //        profRho->GetBinError  (iEta,itnpu,irefpt)  > 0.1){
+	profRho->GetBinError  (iEta,itnpu,irefpt)  > 0.0001){
 
           // get the relevant values
           double rho  = profRho->GetBinContent(iEta, itnpu, irefpt);
@@ -183,18 +184,21 @@ void fitClosurePlots(TProfile3D * prof,
       for (int itnpu = 1 ; itnpu <= prof->GetYaxis()->GetNbins() ; itnpu++){
         for (int irefpt = 1 ; irefpt <= prof->GetZaxis()->GetNbins() ; irefpt++){
 
-          int Gbin = prof->GetBin(iEta, itnpu, irefpt);
-          // avoid points with empty content or too small error
-          if (prof   ->GetBinError  (iEta,itnpu,irefpt)  > 0.000001 &&
-          prof   ->GetBinError  (iEta,itnpu,irefpt)  < 5.0 &&
-          prof   ->GetBinEffectiveEntries(Gbin)      > 3 && //Add back for Flat2017
-          // (fabs(prof->GetBinError(iEta,itnpu,irefpt)/prof->GetBinContent(iEta,itnpu,irefpt)))<0.5 &&// 0.3 ==> 0.5
-          // (fabs(prof->GetBinError(iEta,itnpu,irefpt)/prof->GetBinContent(iEta,itnpu,irefpt)))>0.01 &&// 0.05 ==> 0.01
-          profPt ->GetBinContent(iEta,itnpu,irefpt)  > 0 &&
-          profPt ->GetBinError  (iEta,itnpu,irefpt)  > 0.1 &&
-          // profPt ->GetBinError  (iEta,itnpu,irefpt)  < 10*log10(profPt ->GetBinContent(iEta,itnpu,irefpt)) &&
-          profRho->GetBinContent(iEta,itnpu,irefpt)  > 0 &&
-          profRho->GetBinError  (iEta,itnpu,irefpt)  > 0.1){
+	  int Gbin = prof->GetBin(iEta, itnpu, irefpt);
+	  // avoid points with empty content or too small error
+	  if (prof   ->GetBinError  (iEta,itnpu,irefpt)  > 0.000001 &&
+	      // hist   ->GetBinContent(iEta,itnpu,irefpt)  >=20  &&
+	      fabs(prof   ->GetBinContent  (iEta,itnpu,irefpt))  != TMath::Infinity() &&
+	      prof   ->GetBinError  (iEta,itnpu,irefpt)  < 1.0  && 
+	      //	      prof   ->GetBinEffectiveEntries(Gbin)      > 3 && 
+	      // (fabs(prof->GetBinError(iEta,itnpu,irefpt)/prof->GetBinContent(iEta,itnpu,irefpt)))<0.5 &&// 0.3 ==> 0.5
+	      // (fabs(prof->GetBinError(iEta,itnpu,irefpt)/prof->GetBinContent(iEta,itnpu,irefpt)))>0.01 &&// 0.05 ==> 0.01
+	      profPt ->GetBinContent(iEta,itnpu,irefpt)  > 0 &&
+	      profPt ->GetBinError  (iEta,itnpu,irefpt)  > 0.1 &&
+	      // profPt ->GetBinError  (iEta,itnpu,irefpt)  < 10*log10(profPt ->GetBinContent(iEta,itnpu,irefpt)) &&
+	      profRho->GetBinContent(iEta,itnpu,irefpt)  > 0 &&
+	      //        profRho->GetBinError  (iEta,itnpu,irefpt)  > 0.1){   //old
+	      profRho->GetBinError  (iEta,itnpu,irefpt)  > 0.0001){
 
             h_eff_entries->Fill(prof->GetBinEffectiveEntries(Gbin));
 
@@ -379,7 +383,8 @@ bool getInputProfiles(TString inputFilename, TProfile3D *& prof,
       profRho = (TProfile3D*) fin->Get("p_RhoAve_etaVsNpusVsJetPt");// rho(eta, rho, refpt)
       hist    = (TH3I*)       fin->Get("p_Events_etaVsNpusVsJetPt");
 	cout<<"EDWWW useNPU EINAI TRUE"<<endl;
-      if (!prof || !profPt  || !profRho || !hist) {
+	//      if (!prof || !profPt  || !profRho || !hist) {
+	if (!prof || !profPt  || !profRho) {
         cout<<"ERROR jet_synchfit_xx::getInputProfiles() could not retrieve TProfile3D named "
         <<"either of  p_offOverA_etaVsNpusVsJetPt, p_PtAve_etaVsNpusVsJetPt, "
         <<" or p_RhoAve_etaVsNpusVsJetPt"<<endl;
@@ -392,7 +397,8 @@ bool getInputProfiles(TString inputFilename, TProfile3D *& prof,
       profRho = (TProfile3D*) fin->Get("p_RhoAve_etaVsTnpusVsJetPt");// rho(eta, rho, refpt)
       hist    = (TH3I*)       fin->Get("p_Events_etaVsTnpusVsJetPt");
 	cout<<"EDWWW useNPU EINAI FALSE"<<endl;
-      if (!prof || !profPt  || !profRho || !hist) {
+	//      if (!prof || !profPt  || !profRho || !hist) {
+      if (!prof || !profPt  || !profRho ) {
         cout<<"ERROR jet_synchfit_xx::getInputProfiles() could not retrieve TProfile3D named "
         <<"either of  p_offOverA_etaVsTnpusVsJetPt, p_PtAve_etaVsTnpusVsJetPt, "
         <<" or p_RhoAve_etaVsTnpusVsJetPt"<<endl;

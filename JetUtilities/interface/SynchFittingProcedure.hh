@@ -1038,7 +1038,8 @@ TCanvas * getGausMeanOffset(TString cname, TString ctitle, TString algo, vector<
       cout << "This is the value returned by findNonOverlappingYmax(c,hh,leg): " << findNonOverlappingYmax(c,hh,leg,true,make_pair(false,false),true) << endl;
    }
 */
-   hbin->GetYaxis()->SetRangeUser(-10.,50.);
+   hbin->GetYaxis()->SetRangeUser(-10.,20.);
+   //   hbin->GetYaxis()->SetRangeUser(-0.6,1.4);
 //   hbin->GetYaxis()->SetRangeUser(-50.,80.);
    hbin->GetXaxis()->SetLimits(15.,6500.);
    hbin->GetXaxis()->SetLabelSize(0.04);
