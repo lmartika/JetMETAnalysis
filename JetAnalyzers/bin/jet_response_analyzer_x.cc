@@ -194,7 +194,18 @@ int main(int argc,char**argv)
   TString        DataPUReWeighting = cl.getValue<TString>("DataPUReWeighting",          "");
   TString        DataPUHistoName   = cl.getValue<TString>("DataPUHistoName","pileup_jt400");
   bool           verbose           = cl.getValue<bool>   ("verbose",                 false);
+  // Jet veto maps and phi-dependent corrections
+  bool           applyJetVetoMap   = cl.getValue<bool>   ("applyJetVetoMap",         false);
+  string         jetVetoFile       = cl.getValue<string> ("jetVetoFile",                "");                 // File to read the map from
+  string         jetVetoMap        = cl.getValue<string> ("jetVetoMap",                 "");                 // Which map to use
 
+  // For setting a specific eta-phi range for phi-dependent JEC
+  bool           setEtaPhiRange     = cl.getValue<bool>   ("setEtaPhiRange",           false);
+  float          jtEtamin           = cl.getValue<float>  ("jtEtamin",                       0);
+  float          jtEtamax           = cl.getValue<float>  ("jtEtamax",                      1.);
+  float          jtPhimin           = cl.getValue<float>  ("jtPhimin",                       0);
+  float          jtPhimax           = cl.getValue<float>  ("jtPhimax",                      1.);
+  
   if (!cl.check()) return 0;
   cl.print();
 
@@ -246,6 +257,16 @@ int main(int argc,char**argv)
   TFile* ofile = new TFile(output.c_str(),"RECREATE");
   if (!ofile->IsOpen()) { cout<<"Can't create "<<output<<endl; return 0; }
 
+  // Jet veto map
+  TFile* jvmfile(0); TH2D* jetvetomap(0);
+  if ( applyJetVetoMap ) {
+    jvmfile = TFile::Open(jetVetoFile.c_str(),"READ");
+    if (!ifile->IsOpen()) {  cout<<"Can't open "<<jetVetoFile<<endl; return 0; }
+    else jetvetomap = (TH2D*)jvmfile->Get(jetVetoMap.c_str());
+    if (!jetvetomap) { cout<<"Can't open jet veto map "<<jetVetoMap<<" from file " <<jetVetoFile<<endl; return 0;}
+  }
+
+  
   TIter next(ifile->GetListOfKeys());
   TKey* key(0);
   while ((key=(TKey*)next())) {
@@ -1488,7 +1509,14 @@ int main(int argc,char**argv)
 
   //For APV UL16 mu<40 cut
   //if(JRAEvt->tnpus->at(itInd)>=40) continue;
+	  
+	  // For selecting eta-phi patch 
+	  if( setEtaPhiRange and ( JRAEvt->jtphi->at(iref) > jtPhimax or JRAEvt->jtphi->at(iref) < jtPhimin or JRAEvt->jteta->at(iref) > jtEtamax or JRAEvt->jteta->at(iref) < jtEtamin) ) continue;
 
+	  // Jet veto map veto
+	  if (applyJetVetoMap and jetvetomap->GetBinContent(jetvetomap->FindBin(JRAEvt->jteta->at(iref),JRAEvt->jtphi->at(iref))) > 0) continue;  
+	 
+	    
           if(ievt%10000==0 && iref<JRAEvt->nref-1)
             cout << ".";
           else if(ievt%10000==0 && iref==JRAEvt->nref-1)

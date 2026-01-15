@@ -23,7 +23,7 @@ if doProducer:
 # Jet type options: calo, pf, pfchs, puppi
 # Correction levels: '' (blank), l1, l2, l3, l2l3, l1l2l3
 algsizetype = {'ak':[2,3,4,5,6]}
-jettype = ['pf','calo']
+jettype = ['pf']
 corrs = ['']
 
 algorithms = []
@@ -66,7 +66,7 @@ if conditionsSource != "GT":
 #!
 #! INPUT
 #!
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(1000))
+process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(10))
 
 ##############################################
 # External Input File (most likely from DAS) #
@@ -81,7 +81,8 @@ except ImportError:
 #    process.source = cms.Source("PoolSource", fileNames = inputFiles )
 
     inputFiles = cms.untracked.vstring(
-            '/store/group/phys_heavyions/ec/lcunquei/Run3PbPbDijets_full_reco_justAOD/name/230831_161549/0000/step3_RAW2DIGI_L1Reco_RECO_352.root',
+#            '/store/group/phys_heavyions/ec/lcunquei/Run3PbPbDijets_full_reco_justAOD/name/230831_161549/0000/step3_RAW2DIGI_L1Reco_RECO_352.root',
+        '/store/mc/RunIIIpp5p36Winter24MiniAOD/QCD_pThat-15to1200_TuneCP5_5p36TeV_pythia8/MINIAODSIM/NoPU_FEVTDEBUGHLT_forTracking_141X_mcRun3_2024_realistic_ppRef5TeV_v7-v4/2810000/19e4be36-d724-4a20-a7b6-043e314e4a0b.root'
             )
     process.source = cms.Source("PoolSource", fileNames = inputFiles )
 
@@ -131,6 +132,16 @@ for algorithm in algorithms:
     else:
         addAlgorithm(process,algorithm,Defaults,doJetReco,doProducer)
     outCom.extend(['keep *_'+algorithm+'_*_*'])
+
+
+#process.ak2PFJets.src = cms.InputTag("packedPFCandidates") 
+#process.kt6PFJetsRhos.src = cms.InputTag("packedPFCandidates") 
+#process.ak2GenJetsNoNu.src = cms.InputTag("packedGenParticles")
+#process.genParticlesForJetsNoNu.src = cms.InputTag("packedGenParticles")
+
+
+#process.ak2pf.srcGenParticles = cms.InputTag("packedGenParticles")
+#process.ak2pf.srcPFCandidates = cms.InputTag("packedPFCandidates")
 
 
 #!
