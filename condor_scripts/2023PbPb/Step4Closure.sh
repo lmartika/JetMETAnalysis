@@ -14,23 +14,24 @@ cp $WorkDir/Files/*txt .
 
 echo Input files are: $File
 
+#hadd -k -f Input.root `echo $File | tr ':' ' '`
 hadd -k -f Input.root `echo $File | tr ':' ' '`
 
 jet_correction_analyzer_x \
    -inputFilename Input.root \
    -outputDir ./ \
    -path ./ \
-   -era ParallelMC \
+   -era Stdplusgaus-weights-bigHF \
    -levels 2 \
-   -useweight true \
-   -algs ak6pf \
-   -drmax 0.3 \
+   -useweight false \
+   -algs ak4pf \
+   -drmax 0.2 \
    -evtmax 0 \
-   -nbinsrelrsp 200 \
+   -nbinsrelrsp 60 \
    -relrspmin 0.0 \
-   -relrspmax 2.0 \
+   -relrspmax 3.0 \
    -nrefmax 3
 
-cp Closure_ak6pf.root ${Output}/Closure_ak6pf${ID}.root
+cp Closure_ak4pf.root ${Output}/Closure_ak4pf${ID}.root
 
 rm *.root

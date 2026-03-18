@@ -26,23 +26,23 @@ hadd -k -f Input.root `echo $Files | tr ':' ' '`
 #   -L1FastJet true \
 #   -saveitree false
 
-cp $CMSSW_BASE/src/JetMETAnalysis/JetAnalyzers/config/jra_dr_finebinning.config jra.config
+cp $CMSSW_BASE/src/JetMETAnalysis/JetAnalyzers/config/jra_dr_finebinning_HI2023.config jra.config
 
 jet_response_analyzer_x jra.config \
    -input Input.root \
    -nbinsabsrsp 0 \
    -nbinsetarsp 0 \
    -nbinsphirsp 0 \
-   -nbinsrelrsp 200 \
+   -nbinsrelrsp 60 \
    -doflavor false \
    -flavorDefinition phys \
    -output jra.root \
    -useweight true \
    -nrefmax 3 \
-   -algs ak6pf \
-   -drmax 0.3 \
+   -algs ak4pf \
+   -drmax 0.2 \
    -relrspmin 0.0 \
-   -relrspmax 2.0
+   -relrspmax 3.0
 
 cp jra.root ${Output}/JRA_jecl1${ID}.root
 
